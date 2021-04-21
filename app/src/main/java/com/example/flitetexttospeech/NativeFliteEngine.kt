@@ -1,28 +1,29 @@
 package com.example.flitetexttospeech
 
 import android.content.Context
-import android.speech.tts.Voice
 import android.util.Log
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStreamReader
 
 
-open class FliteEngine(context: Context, callback: SynthReadyCallback){
-    fun FliteEngine(context: Context, callback: SynthReadyCallback) {
-        System.loadLibrary("ttsflite")
-        nativeClassInit()
-
-        mDatapath = File(context.filesDir,"Something?").toString()
-        mContext = context
-        mCallback = callback
-        attemptInit()
-    }
-
+open class NativeFliteEngine(context: Context, callback: SynthReadyCallback){
     private lateinit var mContext: Context
     private var mCallback: SynthReadyCallback? = null
     private var mDatapath: String? = null
     private var mInitialized = false
 
+    init{
+        System.loadLibrary("ttsflite")
+        nativeClassInit()
 
+        // This is loading from the Voice class
+        var tempPath = convertAssetToFile("cmu_us_aew.flitevox").absolutePath
+        mDatapath = tempPath
+        mContext = context
+        mCallback = callback
+        attemptInit()
+    }
 
     protected fun finalize() {
         nativeDestroy()
@@ -105,5 +106,26 @@ open class FliteEngine(context: Context, callback: SynthReadyCallback){
     interface SynthReadyCallback{
         fun onSynthDataReady(audioData: ByteArray?)
         fun onSynthDataComplete()
+    }
+
+    fun convertAssetToFile(filename: String): File {
+        var suffix = ".temp"
+        // This file needs to be tab separated columns
+        var asset = mContext.applicationContext.assets.open(filename)
+        var fileReader = InputStreamReader(asset)
+
+        var tempFile = File.createTempFile(filename, suffix)
+        var tempFileWriter = FileOutputStream(tempFile)
+        // This is ugly AF
+        var data = fileReader.read()
+        while (data != -1) {
+            tempFileWriter.write(data)
+            data = fileReader.read()
+        }
+        // Do a little clean up
+        asset.close()
+        tempFileWriter.close()
+
+        return tempFile
     }
 }
