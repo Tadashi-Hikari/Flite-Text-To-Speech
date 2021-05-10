@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FliteTextToSpeech">
         <service
-            android:name="">
+            android:name="com.example.flitetexttospeech.FliteTextToSpeechService">
             <intent-filter>
                 <action android:name="android.intent.action.TTS_SERVICE" />
                 <category android:name="android.intent.category.DEFAULT" />

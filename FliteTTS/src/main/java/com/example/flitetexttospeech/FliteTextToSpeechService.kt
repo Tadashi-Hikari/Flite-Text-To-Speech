@@ -7,7 +7,7 @@ import android.speech.tts.TextToSpeechService
 import android.util.Log
 
 class FliteTextToSpeechService: TextToSpeechService(){
-    var engine: FliteEngine? = null
+    var engine: NativeFliteEngine? = null
     private var mCallback: SynthesisCallback? = null
     private val DEFAULT_LANGUAGE = "eng"
     private val DEFAULT_COUNTRY = "USA"
@@ -19,7 +19,7 @@ class FliteTextToSpeechService: TextToSpeechService(){
     private val mAvailableVoices: Any? = null
 
     // This is the local implementation of the FlightEngine interface
-    inner class SynthReadyCallback(callback: SynthesisCallback): FliteEngine.SynthReadyCallback{
+    inner class SynthReadyCallback(callback: SynthesisCallback): NativeFliteEngine.SynthReadyCallback{
         private val localCallback = callback
 
         override fun onSynthDataComplete(){
@@ -55,7 +55,7 @@ class FliteTextToSpeechService: TextToSpeechService(){
         }
 
         if(mCallback != null) {
-            engine = FliteEngine(this, SynthReadyCallback(mCallback!!))
+            engine = NativeFliteEngine(this, SynthReadyCallback(mCallback!!))
         }else{
             Log.d(this.javaClass.simpleName, "mCallback is null! What is going on?")
         }
