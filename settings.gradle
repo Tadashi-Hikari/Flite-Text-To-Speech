@@ -1,2 +1,2 @@
-include ':app'
-rootProject.name = "FliteTextToSpeech"
+rootProject.name = "Flite-Text-To-Speech"
+include ':FliteTTS'
