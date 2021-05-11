@@ -8,6 +8,7 @@ import android.speech.tts.SynthesisRequest
 import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeechService
 import android.util.Log
+import org.w3c.dom.Text
 import java.io.File
 
 
@@ -84,7 +85,7 @@ class FliteTextToSpeechService: TextToSpeechService(), TextToSpeech.OnInitListen
 
     // This service is a system callback, letting Android know when the TTS Engine is good to go
     override fun onInit(status: Int) {
-
+        Log.v(this.javaClass.name,"Is this for me? Or some other app component")
     }
 
     // I don't think this is required. It's a legacy thing
