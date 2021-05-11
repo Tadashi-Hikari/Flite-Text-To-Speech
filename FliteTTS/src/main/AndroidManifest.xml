@@ -15,12 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FliteTextToSpeech">
-        <activity android:name="com.example.flitetexttospeech.ui.SettingsActivity"></activity>
-
+        <activity android:name="com.example.flitetexttospeech.ui.SettingsActivity"/>
         <service android:name="com.example.flitetexttospeech.FliteTextToSpeechService">
             <intent-filter>
                 <action android:name="android.intent.action.TTS_SERVICE" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <!--
@@ -29,7 +27,8 @@
             -->
             <meta-data
                 android:name="android.speech.tts"
-                android:resource="@xml/tts_engine"></meta-data>
+                android:resource="@xml/tts_engine">
+            </meta-data>
         </service>
     </application>
 
