@@ -1,6 +1,5 @@
 package com.example.flitetexttospeech
 
-
 import android.media.AudioFormat
 import android.os.Environment
 import android.speech.tts.SynthesisCallback

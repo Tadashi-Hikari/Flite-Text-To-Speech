@@ -29,6 +29,9 @@
                 android:name="android.speech.tts"
                 android:resource="@xml/tts_engine">
             </meta-data>
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="native-activity" />
         </service>
     </application>
 

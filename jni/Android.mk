@@ -60,7 +60,8 @@ FLITE_LIB_DIR:= $(FLITEDIR)/build/$(FLITE_BUILD_SUBDIR)-android/lib
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE    := ttsflite
+#LOCAL_MODULE    := ttsflite
+LOCAL_MODULE := Flite-Text-To-Speech
 
 LOCAL_CPP_EXTENSION := .cc
 
