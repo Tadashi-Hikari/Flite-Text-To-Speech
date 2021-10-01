@@ -43,6 +43,7 @@ LOCAL_PATH:= $(call my-dir)
 
 ###########################################################################
 # Setup Flite related paths
+FLITEDIR := flite/flite-2.0.0-release
 
 # We require that FLITEDIR be defined
 ifndef FLITEDIR
@@ -54,14 +55,19 @@ FLITE_BUILD_SUBDIR:=$(TARGET_ARCH_ABI)
 ifeq "$(TARGET_ARCH_ABI)" "armeabi-v7a"
   FLITE_BUILD_SUBDIR:="armeabiv7a"
 endif
+# I added this part
+ifeq "$(TARGET_ARCH_ABI)" "arm64-v8a"
+    FLITE_BUILD_SUBDIR:="aarch64"
+endif
 
-FLITE_LIB_DIR:= $(FLITEDIR)/build/$(FLITE_BUILD_SUBDIR)-android/lib
+# I changed it from android to none
+FLITE_LIB_DIR:= $(FLITEDIR)/build/$(FLITE_BUILD_SUBDIR)-none/lib
 ###########################################################################
 
 include $(CLEAR_VARS)
 
 #LOCAL_MODULE    := ttsflite
-LOCAL_MODULE := Flite-Text-To-Speech
+LOCAL_MODULE := flitetts
 
 LOCAL_CPP_EXTENSION := .cc
 
@@ -72,12 +78,13 @@ LOCAL_SRC_FILES := edu_cmu_cs_speech_tts_flite_service.cc \
 
 LOCAL_C_INCLUDES := $(FLITEDIR)/include
 
-LOCAL_LDLIBS:= -llog \
-	$(FLITE_LIB_DIR)/libflite_cmu_indic_lex.a \
-	$(FLITE_LIB_DIR)/libflite_cmu_indic_lang.a \
-	$(FLITE_LIB_DIR)/libflite_cmulex.a \
-	$(FLITE_LIB_DIR)/libflite_usenglish.a \
-	$(FLITE_LIB_DIR)/libflite.a \
+# I removed the .a extension, and it seems to like that better
+# Also I just changed this to local static libraries, and I don't know if that's proper
+LOCAL_STATIC_LIBRARIES:= $(FLITE_LIB_DIR)/libflite_cmu_indic_lex \
+	$(FLITE_LIB_DIR)/libflite_cmu_indic_lang \
+	$(FLITE_LIB_DIR)/libflite_cmulex \
+	$(FLITE_LIB_DIR)/libflite_usenglish \
+	$(FLITE_LIB_DIR)/libflite
 
 ifeq ("$(APP_OPTIM)", "debug")
   LOCAL_CFLAGS += -DFLITE_DEBUG_ENABLED=1
@@ -85,5 +92,5 @@ else
   LOCAL_CFLAGS += -DFLITE_DEBUG_ENABLED=0
 endif
 
-
+include $(PREBUILT_STATIC_LIBRARIES)
 include $(BUILD_SHARED_LIBRARY)

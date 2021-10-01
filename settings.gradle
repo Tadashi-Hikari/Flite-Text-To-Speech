@@ -1,2 +1,4 @@
 rootProject.name = "Flite-Text-To-Speech"
+include ':flite'
+include ':jni'
 include ':FliteTTS'

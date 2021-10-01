@@ -151,7 +151,7 @@ dnl         ;;
                 # http://developer.android.com/sdk/ndk/index.html
 		shared=false
 
-		ANDROID_NDK_PLATFORM_PATH="$ANDROID_SDK/platforms/android-25"
+		ANDROID_NDK_PLATFORM_PATH="$ANDROID_SDK/platforms/android-24"
 
 		# There is no build system for 7.1, so we use the build system for 7.0
 		ANDROID_VERSION=24
@@ -161,18 +161,22 @@ dnl         ;;
                 then
 		   ANDROID_TOOLCHAIN="aarch64-linux-android$ANDROID_VERSION-clang"
 		   ANDROIDBIN="$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android-as"
+		   # CFLAGS="$CFLAGS -fpic -mthumb -O3 -DANDROID --sysroot=$ANDROID_NDK_SYSROOT"
                 fi
 
 		if test "$target_cpu" = "armeabiv7a"
                 then
 		   ANDROID_TOOLCHAIN="arm-linux-androideabi-$ANDROID_VERSION-clang"
-		   ANDROIDBIN="$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi"
+		   ANDROIDBIN="$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/arm-linux-androideabi-as"
+		   # CFLAGS="$CFLAGS -fpic -march=armv7-a -mfloat-abi=softfp -O3 -DANDROID --sysroot=$ANDROID_NDK_SYSROOT"
+           # LDFLAGS="$LDFLAGS -Wl,--fix-cortex-a8"
                 fi
 
 		if test "$target_cpu" = "x86"
 		then
 		   ANDROID_TOOLCHAIN="i686-$ANDROID_VERSION-clang"
 		   ANDROIDBIN="$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64/bin/i686-linux-android-as"
+		   # CFLAGS="$CFLAGS -fpic -O3 -DANDROID --sysroot=$ANDROID_NDK_SYSROOT"
 		fi
 
 		if test "$target_cpu" = "x86_64"
@@ -182,7 +186,7 @@ dnl         ;;
 		fi
 
 		# Common to all android variants
-                CC="${ANDROID_NDK}/toolchain/llvm/prebuilt/linux-x86_64/bin/clang"
+                CC="${ANDROID_NDK}/toolchain/llvm/prebuilt/linux-x86_64/bin/clang++"
                 RANLIB="${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib"
                 AR="${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-86_64/bin/llvm-ar"
                 NM="${ANDROID_NDK}/toolchains/llvm/prebuilt/linux-86_64/bin/llvm-nm"

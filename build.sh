@@ -70,7 +70,7 @@ fi
 cd "${FLITEDIR}"
 for arch in aarch64 armeabiv7a x86 x86_64;
 do
-	if ! [ -e "${FLITEDIR}/build/${arch}-android/lib/libflite.a" ];
+	if ! [ -e "${FLITEDIR}/build/${arch}-none/lib/libflite.a" ];
 	then
 		./configure --with-langvox=android --target="${arch}"
 		make -j4
@@ -78,7 +78,8 @@ do
 done
 cd "${OLDPWD}"
 
-# Build the Android application package
+# This part should be pretty irrelivent, since it's making the APK not the compiled files. Those are above
+# Build the Android application package. up to this point, flite should be built yeah? It's just a matter of making the APK
 if [ $# -gt 0 ];
 then
 	action="${1}"

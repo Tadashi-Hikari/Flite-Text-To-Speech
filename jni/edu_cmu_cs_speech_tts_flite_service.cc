@@ -166,7 +166,7 @@ extern "C" {
                                      TtsSynthDoneCallback, path_string);
 
     env->SetIntField(object, FIELD_mNativeData,
-                     reinterpret_cast<int>(jni_data));
+                     reinterpret_cast<int*>(jni_data));
 
     env->ReleaseStringUTFChars(path, path_string);
     return result;
